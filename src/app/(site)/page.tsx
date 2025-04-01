@@ -18,6 +18,11 @@ export default async function Home() {
       {landingPageData?.title && (
         <h1 className="p-12 text-5xl">Page title: {landingPageData?.title}</h1>
       )}
+      <section className="container mx-auto grid grid-cols-1 gap-6 p-12">
+        <h1 className="text-4xl font-bold">Home</h1>
+        <hr />
+        <Link href="/posts">Posts index &rarr;</Link>
+      </section>
       <div className="container mx-auto grid grid-cols-1 gap-6 p-12">
         <h1 className="text-4xl font-bold">Post index</h1>
         <ul className="grid grid-cols-1 divide-y divide-blue-100">

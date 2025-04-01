@@ -74,9 +74,49 @@ export type LandingPage = {
   _createdAt: string
   _updatedAt: string
   _rev: string
+  baseImage?: {
+    asset?: {
+      _ref: string
+      _type: "reference"
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset"
+    }
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: "image"
+  }
+  image?: {
+    asset?: {
+      _ref: string
+      _type: "reference"
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset"
+    }
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: "baseImage"
+  }
   title?: string
   slug?: Slug
   description?: string
+}
+
+export type BaseImage = {
+  _type: "baseImage"
+  asset?: {
+    _ref: string
+    _type: "reference"
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: "sanity.imageAsset"
+  }
+  media?: unknown
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  alt?: string
 }
 
 export type Post = {
@@ -100,6 +140,7 @@ export type Post = {
       _weak?: boolean
       [internalGroqTypeReferenceTo]?: "sanity.imageAsset"
     }
+    media?: unknown
     hotspot?: SanityImageHotspot
     crop?: SanityImageCrop
     alt?: string
@@ -139,19 +180,7 @@ export type Post = {
           _weak?: boolean
           [internalGroqTypeReferenceTo]?: "sanity.imageAsset"
         }
-        hotspot?: SanityImageHotspot
-        crop?: SanityImageCrop
-        alt?: string
-        _type: "imageTestingType"
-        _key: string
-      }
-    | {
-        asset?: {
-          _ref: string
-          _type: "reference"
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: "sanity.imageAsset"
-        }
+        media?: unknown
         hotspot?: SanityImageHotspot
         crop?: SanityImageCrop
         alt?: string
@@ -176,6 +205,7 @@ export type Author = {
       _weak?: boolean
       [internalGroqTypeReferenceTo]?: "sanity.imageAsset"
     }
+    media?: unknown
     hotspot?: SanityImageHotspot
     crop?: SanityImageCrop
     _type: "image"
@@ -243,19 +273,7 @@ export type BlockContent = Array<
         _weak?: boolean
         [internalGroqTypeReferenceTo]?: "sanity.imageAsset"
       }
-      hotspot?: SanityImageHotspot
-      crop?: SanityImageCrop
-      alt?: string
-      _type: "imageTestingType"
-      _key: string
-    }
-  | {
-      asset?: {
-        _ref: string
-        _type: "reference"
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset"
-      }
+      media?: unknown
       hotspot?: SanityImageHotspot
       crop?: SanityImageCrop
       alt?: string
@@ -328,6 +346,7 @@ export type AllSanitySchemaTypes =
   | SanityFileAsset
   | Geopoint
   | LandingPage
+  | BaseImage
   | Post
   | Author
   | Category
@@ -340,10 +359,18 @@ export type AllSanitySchemaTypes =
   | SanityImageMetadata
 export declare const internalGroqTypeReferenceTo: unique symbol
 // Source: ./src/sanity/lib/queries/queries.ts
+// Variable: POSTS_QUERY
+// Query: *[_type == "post" && defined(slug.current)][0...12]{  _id,  title,  slug}
+export type POSTS_QUERYResult = Array<{
+  _id: string
+  title: string | null
+  slug: Slug | null
+}>
 // Variable: POST_QUERY
-// Query: *[_type == "post" && slug.current == $slug][0]{  title,  body,  mainImage}
+// Query: *[_type == "post" && slug.current == $slug][0]{  title,  slug,  body,  mainImage}
 export type POST_QUERYResult = {
   title: string | null
+  slug: Slug | null
   body: Array<
     | {
         children?: Array<{
@@ -370,23 +397,11 @@ export type POST_QUERYResult = {
           _weak?: boolean
           [internalGroqTypeReferenceTo]?: "sanity.imageAsset"
         }
+        media?: unknown
         hotspot?: SanityImageHotspot
         crop?: SanityImageCrop
         alt?: string
         _type: "image"
-        _key: string
-      }
-    | {
-        asset?: {
-          _ref: string
-          _type: "reference"
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: "sanity.imageAsset"
-        }
-        hotspot?: SanityImageHotspot
-        crop?: SanityImageCrop
-        alt?: string
-        _type: "imageTestingType"
         _key: string
       }
   > | null
@@ -397,6 +412,7 @@ export type POST_QUERYResult = {
       _weak?: boolean
       [internalGroqTypeReferenceTo]?: "sanity.imageAsset"
     }
+    media?: unknown
     hotspot?: SanityImageHotspot
     crop?: SanityImageCrop
     alt?: string
@@ -420,7 +436,8 @@ export type LANDINGPAGE_QUERYResult = {
 import "@sanity/client"
 declare module "@sanity/client" {
   interface SanityQueries {
-    '*[_type == "post" && slug.current == $slug][0]{\n  title,\n  body,\n  mainImage\n}': POST_QUERYResult
+    '*[_type == "post" && defined(slug.current)][0...12]{\n  _id,\n  title,\n  slug\n}': POSTS_QUERYResult
+    '*[_type == "post" && slug.current == $slug][0]{\n  title,\n  slug,\n  body,\n  mainImage\n}': POST_QUERYResult
     '*[_type == "landingPage" && _id == $lang][0]{\n  _id,\n  title,\n  slug,\n  "posts": *[_type == "post" && defined(slug.current)][0...12]{\n    _id,\n    title,\n    slug\n  }\n}': LANDINGPAGE_QUERYResult
   }
 }

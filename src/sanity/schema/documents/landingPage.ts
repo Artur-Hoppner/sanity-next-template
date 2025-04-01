@@ -1,5 +1,6 @@
 import { HomeIcon } from "@sanity/icons"
 import { defineField, defineType } from "sanity"
+import { image } from "../objects/common/index"
 
 export const landingPage = defineType({
   name: "landingPage",
@@ -7,6 +8,11 @@ export const landingPage = defineType({
   type: "document",
   icon: HomeIcon,
   fields: [
+    image({ required: true }),
+    defineField({
+      name: "image",
+      type: "baseImage"
+    }),
     defineField({
       name: "title",
       type: "string"

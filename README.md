@@ -11,6 +11,5 @@ pnpm dev
 
 ### Generate typegen
 
-sanity-typegen.json controles where extracted schemas and typegen is generated.
-npx sanity@latest schema extract --path=./src/types/extract.json
-npx sanity@latest typegen generate
+sanity-typegen.json controles where extracted schemas and typegen is generated with custom made command:
+ - pnpm run typegen
