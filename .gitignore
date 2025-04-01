@@ -23,6 +23,7 @@
 # misc
 .DS_Store
 *.pem
+src/types/extract.json
 
 # debug
 npm-debug.log*
