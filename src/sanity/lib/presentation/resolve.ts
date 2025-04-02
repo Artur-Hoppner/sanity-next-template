@@ -19,6 +19,31 @@ export const resolve: PresentationPluginOptions["resolve"] = {
               tone: "critical"
             })
       })
+    }),
+    post: defineLocations({
+      select: {
+        title: "title",
+        slug: "slug.current"
+      },
+      resolve: (doc) => ({
+        locations: doc?.slug
+          ? [
+              {
+                title: doc?.title || "Untitled",
+                href: `/posts/${doc?.slug}`
+              }
+            ]
+          : [],
+        ...(doc?.slug
+          ? {
+              message: "View Presentation mode",
+              tone: "positive"
+            }
+          : {
+              message: "Presentation mode: Document needs a slug and parent",
+              tone: "critical"
+            })
+      })
     })
   }
 }
