@@ -1,17 +1,17 @@
-import { client } from "@/sanity/lib/client"
-import { LANDINGPAGE_QUERY } from "@/sanity/lib/queries/queries"
 import Link from "next/link"
+import { LANDINGPAGE_QUERY } from "@/sanity/lib/queries/queries"
 import { LANDINGPAGE_QUERYResult } from "@/types/sanityTypes"
+import { sanityFetch } from "@/sanity/lib/sanityFetch"
 
 export default async function Home() {
-  const options = { next: { revalidate: 60 } }
   // const currentLang = "en"
   const currentLang = "landingPageSingleton" // temp control of lang
-  const landingPageData: LANDINGPAGE_QUERYResult = await client.fetch(
-    LANDINGPAGE_QUERY,
-    { lang: currentLang },
-    options
-  )
+
+  const landingPageData: LANDINGPAGE_QUERYResult = await sanityFetch({
+    query: LANDINGPAGE_QUERY,
+    params: { lang: currentLang },
+    revalidateAs: "landingPage"
+  })
 
   return (
     <main>
