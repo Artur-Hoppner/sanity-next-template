@@ -10,7 +10,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typegen": "pnpm exec sanity schema extract --path=./src/types/extract.json && pnpm exec sanity typegen generate --config sanity-typegen.json",
+    "typegen": "pnpx sanity schema extract --path=./src/types/extract.json && pnpx sanity typegen generate --config sanity-typegen.json",
     "format": "prettier --check --ignore-path .gitignore .",
     "format:fix": "prettier --write --ignore-path .gitignore ."
   },
