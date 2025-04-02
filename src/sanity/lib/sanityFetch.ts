@@ -18,7 +18,7 @@ export async function sanityFetch<QueryResponse>({
   params?: QueryParams
   skipDraftMode?: boolean
 }) {
-  const isDraftMode = skipDraftMode ? false : draftMode()
+  const isDraftMode = skipDraftMode ? false : (await draftMode()).isEnabled
   const REVALIDATE_SKIP_CACHE = 1
   const REVALIDATE_CACHE_AS_SETTING = sanityCacheSettings[revalidateAs]
 

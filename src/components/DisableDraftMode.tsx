@@ -4,7 +4,6 @@ import { useDraftModeEnvironment } from "next-sanity/hooks"
 
 export function DisableDraftMode() {
   const environment = useDraftModeEnvironment()
-  console.log("env", environment)
   if (environment !== "live" && environment !== "unknown") {
     return null
   }
