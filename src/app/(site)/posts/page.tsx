@@ -1,10 +1,11 @@
-import { POSTS_QUERY } from "@/sanity/lib/queries/queries"
 import Link from "next/link"
+import { POSTS_QUERY } from "@/sanity/lib/queries/queries"
 import { POSTS_QUERYResult } from "@/types/sanityTypes"
 import { sanityFetch } from "@/sanity/lib/sanityFetch"
 import { notFound } from "next/navigation"
 
 export default async function Home() {
+  // TODO: LOCALIZATION
   const posts: POSTS_QUERYResult = await sanityFetch({
     query: POSTS_QUERY,
     revalidateAs: "generalPages"

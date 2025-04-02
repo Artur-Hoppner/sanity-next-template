@@ -4,9 +4,22 @@ import Link from "next/link"
 import { POST_QUERYResult } from "@/types/sanityTypes"
 import { sanityFetch } from "@/sanity/lib/sanityFetch"
 
+export async function generateStaticParams() {
+  // TODO: LOCALIZATION
+  const posts = await sanityFetch<{ slug: { current: string } }[]>({
+    // TODO: move groq to queries
+    query: `*[_type == "post" && defined(slug.current)]{ "slug": slug.current }`,
+    revalidateAs: "generalPages",
+    skipDraftMode: true
+  })
+
+  return posts.map((post) => ({ slug: post.slug }))
+}
+
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
 
+  // TODO: LOCALIZATION
   const post: POST_QUERYResult = await sanityFetch({
     query: POST_QUERY,
     params: { slug },
